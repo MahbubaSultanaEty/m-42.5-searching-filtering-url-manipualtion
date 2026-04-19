@@ -2,6 +2,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import FoodCard from '../components/FoodCard';
 
 
 const FoodsPage = () => {
@@ -17,7 +18,7 @@ const FoodsPage = () => {
      "category": "Main Course",
      "price": 8.99,
      "rating": 4.7,
-     "image": "https://images.unsplash.com/photo-1604908176997-4318bda9d67b",
+     "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
      "description": "Aromatic basmati rice cooked with tender chicken and spices.",
      "isAvailable": true
    },
@@ -132,21 +133,10 @@ const FoodsPage = () => {
        {/* Food Cards Container */}
        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
  
-         {/* Example Card */}
-         <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
-           {/* <Image
-             src="https://images.unsplash.com/photo-1550547660-d9450f859349"
-             alt="food"
-             className="h-40 w-full object-cover"
-           /> */}
-           <div className="p-4">
-             <h2 className="text-lg font-semibold">Beef Burger</h2>
-             <p className="text-sm text-gray-500">Fast Food</p>
-             <p className="font-bold mt-2">$5.49</p>
-           </div>
-         </div>
- 
-         {/* Duplicate / map later */}
+                   {
+                       foods.map(food => <FoodCard key={food.id} food={food} />)
+         }
+         
        </div>
  
      </div>
