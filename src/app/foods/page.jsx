@@ -3,15 +3,15 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import FoodCard from '../components/FoodCard';
+import NoFood from '../components/NoFood';
 
 
 const FoodsPage = () => {
   const [foods, setFoods] = useState([])
-   const [loading, setLoading] = useState(false)
- 
-   const fetchFoods = () => {
-     setLoading(true),
-       setFoods( [
+  const [loading, setLoading] = useState(false);
+  const [searchingInp, setSearchingInp] = useState("")
+  
+  const allFoods = [
    {
      "id": 1,
      "name": "Chicken Biryani",
@@ -21,7 +21,8 @@ const FoodsPage = () => {
      "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
      "description": "Aromatic basmati rice cooked with tender chicken and spices.",
      "isAvailable": true
-   },
+         },
+
    {
      "id": 2,
      "name": "Beef Burger",
@@ -92,13 +93,26 @@ const FoodsPage = () => {
      "description": "Creamy Alfredo pasta with parmesan cheese.",
      "isAvailable": true
    }
-       ])  
+  ]
+  
+   const fetchFoods = () => {
+     setLoading(true),
+       setFoods(allFoods ),
+       setLoading(false)
    }
  
  
     useEffect( () => {
        fetchFoods();
     }, []);
+  
+  const handleSearch = () => {
+    const searchedFoods = allFoods.filter(food => food.name.toLowerCase().includes(searchingInp.toLowerCase()));
+    console.log(searchedFoods);
+    setFoods(searchedFoods)
+  }
+   
+  console.log(searchingInp);
    
    return (
      <div className="title"
@@ -114,11 +128,16 @@ const FoodsPage = () => {
        <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
  
          {/* Search Bar */}
-         <input
+           <input
+             value={searchingInp}
+             onChange={e => setSearchingInp(e.target.value)}
            type="text"
            placeholder="Search food..."
            className="w-full md:w-1/2 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500"
-         />
+           />
+           <button
+             onClick={handleSearch}
+             className="btn btn-neutral border-2 border-white">Search</button>
  
          {/* Filter Dropdown */}
          <select className="w-full md:w-1/4 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
@@ -130,8 +149,10 @@ const FoodsPage = () => {
          </select>
        </div>
  
-       {/* Food Cards Container */}
-       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+         {/* Food Cards Container */}
+         {
+           loading ? (<div> Loading deliciaous foods</div>) : foods.length === 0 ? (<NoFood />) : (
+               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
  
                    {
                        foods.map(food => <FoodCard key={food.id} food={food} />)
@@ -139,6 +160,9 @@ const FoodsPage = () => {
          
        </div>
  
+           )
+         }
+     
      </div>
     </div>
    );
