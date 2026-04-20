@@ -9,7 +9,8 @@ import NoFood from '../components/NoFood';
 const FoodsPage = () => {
   const [foods, setFoods] = useState([])
   const [loading, setLoading] = useState(false);
-  const [searchingInp, setSearchingInp] = useState("")
+  const [searchingInp, setSearchingInp] = useState("");
+  const [filterInp, setFilterInp] = useState("")
   
   const allFoods = [
    {
@@ -111,6 +112,13 @@ const FoodsPage = () => {
     console.log(searchedFoods);
     setFoods(searchedFoods)
   }
+
+  const handleFilter = (e) => {
+    const value = e.target.value;
+    const expectedFoods = allFoods.filter(food => food.category == value);
+    setFoods(expectedFoods);
+    console.log(value, "value");
+  }
    
   console.log(searchingInp);
    
@@ -140,7 +148,9 @@ const FoodsPage = () => {
              className="btn btn-neutral border-2 border-white">Search</button>
  
          {/* Filter Dropdown */}
-         <select className="w-full md:w-1/4 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
+           <select
+             onChange={handleFilter}
+             className="w-full md:w-1/4 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500">
            <option value="">All Categories</option>
            <option value="Fast Food">Fast Food</option>
            <option value="Main Course">Main Course</option>
